@@ -1,6 +1,4 @@
 <?php
-//error_log($_POST['action'] . "**\r", 3, 'php.log');
-
 require_once('util/StringUtil.php');
 require_once('dao/UserDAO.php');
 require_once('model/User.php');
@@ -9,8 +7,7 @@ use dao\UserDAO;
 use model\User;
 use util\StringUtil;
 
-$action = $_POST['action'];
-if ($action != null && $action === 'add') {
+if (isset($_POST['action']) && $_POST['action'] === 'add') {
     $username = StringUtil::dealInput($_POST['username']);
     $password = StringUtil::dealInput($_POST['password']);
 
@@ -44,11 +41,11 @@ if ($action != null && $action === 'add') {
     <table align="center" border="1">
         <tr>
             <td><label for="username">username:</label></td>
-            <td><input name="username"/></td>
+            <td><input id="username" name="username"/></td>
         </tr>
         <tr>
             <td><label for="password">password:</label></td>
-            <td><input type="password" name="password"/></td>
+            <td><input id="password" type="password" name="password"/></td>
         </tr>
         <tr>
             <td colspan="2" align="center"><input type="submit" value="add"/></td>

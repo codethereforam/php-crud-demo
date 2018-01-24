@@ -22,8 +22,10 @@ class UserDAO
         $connection = DatabaseUtil::getConnection();
         $sql = 'INSERT INTO user(username, password) VALUES(:username, :password)';
         $stmt = $connection->prepare($sql);
-        $stmt->bindParam(':username', $user->getUsername());
-        $stmt->bindParam(':password', $user->getPassword());
+        $username = $user->getUsername();
+        $password = $user->getPassword();
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':password', $password);
         $stmt->execute();
         $success = $stmt->rowCount() > 0;
         $connection = null;
@@ -87,9 +89,12 @@ class UserDAO
         $connection = DatabaseUtil::getConnection();
         $sql = 'UPDATE user SET username=:username, password=:password WHERE id=:id';
         $stmt = $connection->prepare($sql);
-        $stmt->bindParam(":id", $user->getId());
-        $stmt->bindParam(':username', $user->getUsername());
-        $stmt->bindParam(':password', $user->getPassword());
+        $id = $user->getId();
+        $username = $user->getUsername();
+        $password = $user->getPassword();
+        $stmt->bindParam(":id", $id);
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':password', $password);
         $stmt->execute();
         $success = $stmt->rowCount() > 0;
         $connection = null;

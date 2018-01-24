@@ -5,12 +5,13 @@ require_once('util/StringUtil.php');
 use dao\UserDAO;
 use util\StringUtil;
 
+$userDAO = new UserDAO();
+
 //delete
 $URI = $_SERVER["REQUEST_URI"];
 $action = StringUtil::getUrlParam('action', $URI);
-if ($action != null && $action === 'del') {
+if ($action === 'del') {
     $id = StringUtil::getUrlParam('id', $URI);
-    $userDAO = new UserDAO();
     $success = $userDAO->deleteById($id);
     $_SERVER["REQUEST_URI"] = 'www.baidu.com';
     if ($success) {
@@ -19,17 +20,13 @@ if ($action != null && $action === 'del') {
         echo '<script>alert("delete fail!")</script>';
     }
 }
-
-//list
-$userDAO = new UserDAO();
-$users = $userDAO->list();
 ?>
 
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>get users list</title>
+    <title>index</title>
 </head>
 <body>
 <div align="center">
@@ -43,20 +40,19 @@ $users = $userDAO->list();
         <th>manage</th>
     </tr>
     <?php
-    foreach ($users as $u) {
-        $id = $u->getId();
-        $username = $u->getUsername();
-        $password = $u->getPassword();
+    //list
+    foreach ($userDAO->list() as $user) {
+        $id = $user->getId();
+        $username = $user->getUsername();
+        $password = $user->getPassword();
         ?>
         <tr>
             <td><?php echo $id ?></td>
             <td><a href="detail.php?id=<?php echo $id ?>"><?php echo $username ?></a></td>
             <td><?php echo $password ?></td>
-            <td><a href="modify.php?id=<?php echo $id ?>&username=<?php echo $username ?>&password=<?php echo $password
-                ?>">modify</a> <a href="index.php?id=<?php
-                echo
-                $id
-                ?>&action=del">DEL</a>
+            <td>
+                <a href="modify.php?id=<?php echo $id ?>&username=<?php echo $username ?>&password=<?php echo $password ?>">modify</a>
+                <a href="index.php?id=<?php echo $id ?>&action=del">DEL</a>
             </td>
         </tr>
         <?php

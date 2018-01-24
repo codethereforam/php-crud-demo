@@ -8,16 +8,15 @@ use model\User;
 use util\StringUtil;
 
 $URI = $_SERVER["REQUEST_URI"];
+
 $id = StringUtil::getUrlParam('id', $URI);
 $username = StringUtil::getUrlParam('username', $URI);
 $password = StringUtil::getUrlParam('password', $URI);
 
-$action = $_POST['action'];
-if ($action != null && $action === 'modify') {
+if (isset($_POST['action']) && $_POST['action'] === 'modify') {
     $id = StringUtil::dealInput($_POST['id']);
     $username = StringUtil::dealInput($_POST['username']);
     $password = StringUtil::dealInput($_POST['password']);
-//    echo $id . '|' . $username . '|' . $password;
 
     $user = new User();
     $user->setId($id);

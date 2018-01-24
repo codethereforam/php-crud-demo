@@ -1,8 +1,17 @@
+<?php
+require_once('util/StringUtil.php');
+require_once('dao/UserDAO.php');
+
+$id = \util\StringUtil::getUrlParam('id', $_SERVER["REQUEST_URI"]);
+$userDAO = new \dao\UserDAO();
+$user = $userDAO->getById($id);
+?>
+
 <!doctype html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>user detail</title>
+    <title>detail</title>
 </head>
 <body>
 <div align="center">
@@ -14,13 +23,6 @@
         <th>username</th>
         <th>password</th>
     </tr>
-    <?php
-    include_once('util/StringUtil.php');
-    $id = \util\StringUtil::getUrlParam('id', $_SERVER["REQUEST_URI"]);
-    include_once('dao/UserDAO.php');
-    $userDAO = new \dao\UserDAO();
-    $user = $userDAO->getById($id);
-    ?>
     <tr>
         <td><?php echo $user->getId() ?></td>
         <td><?php echo $user->getUsername() ?></td>
