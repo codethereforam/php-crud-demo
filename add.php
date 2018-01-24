@@ -1,9 +1,9 @@
 <?php
 //error_log($_POST['action'] . "**\r", 3, 'php.log');
 
-require('util/StringUtil.php');
-require('dao/UserDAO.php');
-require('model/User.php');
+require_once('util/StringUtil.php');
+require_once('dao/UserDAO.php');
+require_once('model/User.php');
 
 use dao\UserDAO;
 use model\User;
@@ -21,7 +21,8 @@ if($action != null && $action === 'add') {
     $userDAO = new UserDAO();
     $success =  $userDAO->add($user);
     if($success) {
-        echo 'success';
+        Header("Location: index.php");
+        return;
     } else {
         echo 'fail';
     }
