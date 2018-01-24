@@ -1,6 +1,5 @@
 <?php
 require_once('dao/UserDAO.php');
-require_once('model/User.php');
 
 use dao\UserDAO;
 
@@ -27,12 +26,13 @@ $users = $userDAO->list();
     </tr>
     <?php
     foreach ($users as $u) {
+        $id = $u->getId();
         ?>
         <tr>
-            <td><?php echo $u->getId() ?></td>
-            <td><a href="detail.html?id={{user.id}}"><?php echo $u->getUsername() ?></a></td>
+            <td><?php echo $id ?></td>
+            <td><a href="detail.php?id=<?php echo $id ?>"><?php echo $u->getUsername() ?></a></td>
             <td><?php echo $u->getPassword() ?></td>
-            <td><a href="modify.html?id={{user.id}}">modify</a> <a href="javascript:void(0)">DEL</a>
+            <td><a href="modify.php?id=<?php echo $id ?>">modify</a> <a href="javascript:void(0)">DEL</a>
             </td>
         </tr>
         <?php
