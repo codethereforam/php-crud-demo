@@ -38,6 +38,7 @@ class UserDAO
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         $result = $stmt->fetchAll();
+        $connection = null;
 
         $users = array();
         for ($i = 0; $i < count($result); $i++) {
@@ -53,13 +54,14 @@ class UserDAO
 
     public function getById($id)
     {
-        $connnection = DatabaseUtil::getConnection();
+        $connection = DatabaseUtil::getConnection();
         $sql = 'SELECT * FROM user WHERE id=:id';
-        $stmt = $connnection->prepare($sql);
+        $stmt = $connection->prepare($sql);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         $result = $stmt->fetchAll();
+        $connection = null;
 
         $user = new User();
         $user->setId($result[0]['id']);
@@ -70,7 +72,14 @@ class UserDAO
 
     public function deleteById($id)
     {
-
+        $connection = DatabaseUtil::getConnection();
+        $sql = 'delete from user WHERE id=:id';
+        $stmt = $connection->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $success = $stmt->rowCount() > 0;
+        $connection = null;
+        return $success;
     }
 
     public function update(User $user)

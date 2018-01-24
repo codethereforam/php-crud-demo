@@ -1,8 +1,26 @@
 <?php
 require_once('dao/UserDAO.php');
+require_once('util/StringUtil.php');
 
 use dao\UserDAO;
+use util\StringUtil;
 
+//delete
+$URI = $_SERVER["REQUEST_URI"];
+$action = StringUtil::getUrlParam('action', $URI);
+if($action != null && $action === 'del') {
+    $id = StringUtil::getUrlParam('id', $URI);
+    $userDAO = new UserDAO();
+    $success = $userDAO->deleteById($id);
+    $_SERVER["REQUEST_URI"] = 'www.baidu.com';
+    if($success) {
+        Header("Location: index.php");
+    } else {
+        echo 'fail';
+    }
+}
+
+//list
 $userDAO = new UserDAO();
 $users = $userDAO->list();
 ?>
@@ -32,7 +50,8 @@ $users = $userDAO->list();
             <td><?php echo $id ?></td>
             <td><a href="detail.php?id=<?php echo $id ?>"><?php echo $u->getUsername() ?></a></td>
             <td><?php echo $u->getPassword() ?></td>
-            <td><a href="modify.php?id=<?php echo $id ?>">modify</a> <a href="javascript:void(0)">DEL</a>
+            <td><a href="modify.php?id=<?php echo $id ?>">modify</a> <a href="index.php?id=<?php echo $id
+                ?>&action=del">DEL</a>
             </td>
         </tr>
         <?php
