@@ -10,7 +10,7 @@ use model\User;
 use util\StringUtil;
 
 $action = $_POST['action'];
-if($action != null && $action === 'add') {
+if ($action != null && $action === 'add') {
     $username = StringUtil::dealInput($_POST['username']);
     $password = StringUtil::dealInput($_POST['password']);
 
@@ -19,12 +19,12 @@ if($action != null && $action === 'add') {
     $user->setPassword($password);
 
     $userDAO = new UserDAO();
-    $success =  $userDAO->add($user);
-    if($success) {
+    $success = $userDAO->add($user);
+    if ($success) {
         Header("Location: index.php");
         return;
     } else {
-        echo 'fail';
+        echo '<script>alert("add fail!")</script>';
     }
 }
 ?>
@@ -40,7 +40,7 @@ if($action != null && $action === 'add') {
     <a href="index.php">home</a>
 </div>
 <form method="post" action="add.php">
-    <input hidden name="action" value="add" />
+    <input hidden name="action" value="add"/>
     <table align="center" border="1">
         <tr>
             <td><label for="username">username:</label></td>
@@ -55,6 +55,5 @@ if($action != null && $action === 'add') {
         </tr>
     </table>
 </form>
-<!--<div align="center">{{msg}}</div>-->
 </body>
 </html>

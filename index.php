@@ -8,15 +8,15 @@ use util\StringUtil;
 //delete
 $URI = $_SERVER["REQUEST_URI"];
 $action = StringUtil::getUrlParam('action', $URI);
-if($action != null && $action === 'del') {
+if ($action != null && $action === 'del') {
     $id = StringUtil::getUrlParam('id', $URI);
     $userDAO = new UserDAO();
     $success = $userDAO->deleteById($id);
     $_SERVER["REQUEST_URI"] = 'www.baidu.com';
-    if($success) {
+    if ($success) {
         Header("Location: index.php");
     } else {
-        echo 'fail';
+        echo '<script>alert("delete fail!")</script>';
     }
 }
 
@@ -45,12 +45,17 @@ $users = $userDAO->list();
     <?php
     foreach ($users as $u) {
         $id = $u->getId();
+        $username = $u->getUsername();
+        $password = $u->getPassword();
         ?>
         <tr>
             <td><?php echo $id ?></td>
-            <td><a href="detail.php?id=<?php echo $id ?>"><?php echo $u->getUsername() ?></a></td>
-            <td><?php echo $u->getPassword() ?></td>
-            <td><a href="modify.php?id=<?php echo $id ?>">modify</a> <a href="index.php?id=<?php echo $id
+            <td><a href="detail.php?id=<?php echo $id ?>"><?php echo $username ?></a></td>
+            <td><?php echo $password ?></td>
+            <td><a href="modify.php?id=<?php echo $id ?>&username=<?php echo $username ?>&password=<?php echo $password
+                ?>">modify</a> <a href="index.php?id=<?php
+                echo
+                $id
                 ?>&action=del">DEL</a>
             </td>
         </tr>

@@ -73,7 +73,7 @@ class UserDAO
     public function deleteById($id)
     {
         $connection = DatabaseUtil::getConnection();
-        $sql = 'delete from user WHERE id=:id';
+        $sql = 'DELETE FROM user WHERE id=:id';
         $stmt = $connection->prepare($sql);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
@@ -84,6 +84,15 @@ class UserDAO
 
     public function update(User $user)
     {
-
+        $connection = DatabaseUtil::getConnection();
+        $sql = 'UPDATE user SET username=:username, password=:password WHERE id=:id';
+        $stmt = $connection->prepare($sql);
+        $stmt->bindParam(":id", $user->getId());
+        $stmt->bindParam(':username', $user->getUsername());
+        $stmt->bindParam(':password', $user->getPassword());
+        $stmt->execute();
+        $success = $stmt->rowCount() > 0;
+        $connection = null;
+        return $success;
     }
 }
